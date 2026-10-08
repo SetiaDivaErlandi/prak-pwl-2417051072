@@ -3,6 +3,13 @@
 @section('content')
 <div class="container">
     <h1>Daftar Mata Kuliah</h1>
+
+    @if (session('success'))
+        <div style="background-color: #d1e7dd; color: #0f5132; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <a href="{{ route('matakuliah.create') }}">Tambah Mata Kuliah Baru</a>
     <br><br>
 
@@ -12,6 +19,7 @@
                 <th>ID</th>
                 <th>Nama Mata Kuliah</th>
                 <th>SKS</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -20,6 +28,14 @@
                 <td>{{ $mk->id }}</td>
                 <td>{{ $mk->nama_mk }}</td>
                 <td>{{ $mk->sks }}</td>
+                <td>
+                    <a href="{{ route('matakuliah.edit', $mk->id) }}">Edit</a> |
+                    <form action="{{ route('matakuliah.destroy', $mk->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>
